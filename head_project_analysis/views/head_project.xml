@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="head_project_view_tree" model="ir.ui.view">
+        <field name="name">head.project.tree</field>
+        <field name="model">head.project</field>
+        <field name="arch" type="xml">
+            <tree string="Program">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="head_project_view_form" model="ir.ui.view">
+        <field name="name">head.project.form</field>
+        <field name="model">head.project</field>
+        <field name="arch" type="xml">
+            <form string="Program">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="project_ids">-->
+<!--                                <tree string="Sub Projects" editable="bottom">-->
+<!--                                    <field name="name"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </group>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_view_head_project">
+        <field name="name">Program</field>
+        <field name="res_model">head.project</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.menu" id="project.menu_projects">
+        <field name="action" eval="False"/>
+    </record>
+    <menuitem id="menu_projects_inh" name="Projects" parent="project.menu_main_pm" sequence="1"/>
+    <menuitem id="menu_head_project" name="Programs" parent="head_project_analysis.menu_projects_inh"
+              action="head_project_analysis.action_view_head_project" sequence="1"/>
+    <menuitem id="menu_project" name="Projects" parent="head_project_analysis.menu_projects_inh"
+              action="project.open_view_project_all" sequence="2"/>
+
+    <record id="head_project_form_view" model="ir.ui.view">
+        <field name="name">project.inherited.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="head_project_id" placeholder="Program"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_form2_inherit" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="head_project_id"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</odoo>
